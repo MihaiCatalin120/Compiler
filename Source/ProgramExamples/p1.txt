@@ -1,0 +1,13 @@
+//p1. min of 3 numbers
+
+var int a;
+var int b;
+var int c;
+var [20] of int d;
+read(a); read(b); read(c);
+
+if(a<b and a<c) write(a);
+else if(b<a and b<c) write(b);
+else write(c);
+
+

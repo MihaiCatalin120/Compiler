@@ -1,0 +1,13 @@
+
+//p2. gcd of 2 numbers
+
+var int a;
+var int b;
+
+read(a); read(b);
+
+while(a!=b) {
+	if(a<b) a=a-b;
+	else b=b-a;
+}
+write(a);
