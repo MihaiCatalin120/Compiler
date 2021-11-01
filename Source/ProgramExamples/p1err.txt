@@ -1,0 +1,15 @@
+
+// p1err. p1 with lexical errors
+
+var int a;
+var int b;
+var int 123c;
+var char letter;
+
+letter='b';
+read(0a); read(b); read(c);
+
+if(a<b and a<c) write(a);
+else if(b<a and b<c) write(b);
+else write(c);
+

@@ -1,6 +1,6 @@
 
 class SymbolTable:
-    def __init__(self, capacity=11, loadFactor=0.8):
+    def __init__(self, capacity=211, loadFactor=0.8):
         self._capacity = capacity
         self._loadFactor = loadFactor
         self._map = self.__initMap()
@@ -40,3 +40,10 @@ class SymbolTable:
 
     def __hash(self, token: str):
         return token.__hash__() % self._capacity
+
+    def getContent(self):
+        result = []
+        for key in self._map:
+            for item in self._map[key]:
+                result.append((key, item))
+        return result
