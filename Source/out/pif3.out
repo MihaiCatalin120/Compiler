@@ -1,0 +1,50 @@
+var -> -1
+int -> -1
+identifier -> (181, 0)
+; -> -1
+var -> -1
+int -> -1
+identifier -> (52, 0)
+; -> -1
+read -> -1
+( -> -1
+identifier -> (181, 0)
+) -> -1
+; -> -1
+read -> -1
+( -> -1
+identifier -> (52, 0)
+) -> -1
+; -> -1
+while -> -1
+( -> -1
+identifier -> (181, 0)
+!= -> -1
+identifier -> (52, 0)
+) -> -1
+{ -> -1
+if -> -1
+( -> -1
+identifier -> (181, 0)
+< -> -1
+identifier -> (52, 0)
+) -> -1
+identifier -> (181, 0)
+= -> -1
+identifier -> (181, 0)
+- -> -1
+identifier -> (52, 0)
+; -> -1
+else -> -1
+identifier -> (52, 0)
+= -> -1
+identifier -> (52, 0)
+- -> -1
+identifier -> (181, 0)
+; -> -1
+} -> -1
+write -> -1
+( -> -1
+identifier -> (181, 0)
+) -> -1
+; -> -1

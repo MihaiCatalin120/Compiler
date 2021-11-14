@@ -1,0 +1,32 @@
+{
+    "States": [ "A", "B", "C" ],
+    "Alphabet": [ 0, 1 ],
+    "InitialState": "A",
+    "FinalStates": ["C"],
+    "Transitions": {
+        "A": [{
+            "ToState": "A",
+            "Label": 0
+        }, {
+            "ToState": "C",
+            "Label": 1
+        }],
+        "B": [{
+            "ToState": "B",
+            "Label": 0
+        }, {
+            "ToState": "A",
+            "Label": 1
+        }],
+        "C": [{
+            "ToState": "C",
+            "Label": 0
+        }, {
+            "ToState": "B",
+            "Label": 1
+        }, {
+            "ToState": "C",
+            "Label": 0
+        }]
+    }
+}
