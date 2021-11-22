@@ -1,0 +1,10 @@
+{
+    "nonTerminals": [ "S", "B", "C" ],
+    "terminals": [ "a", "b", "c" ],
+    "start": [ "S" ],
+    "productions": {
+        "S": [ "abC", "aB" ],
+        "B": [ "bC" ],
+        "C": [ "c" ]
+    }
+}

@@ -1,6 +1,6 @@
 from Scanner import Scanner
 from FiniteAutomata import readFromFile
-
+from Grammar import readGrammarFromFile
 
 def printFAMenu():
     print("-----------------------------")
@@ -12,6 +12,17 @@ def printFAMenu():
     print("5. Check if a string is accepted")
     print("6. Check validity")
     print("7. Deterministic?")
+    print("0. Exit")
+
+def printGrammarMenu():
+    print("-----------------------------")
+    print("For the loaded grammar:")
+    print("1. See non terminals")
+    print("2. See terminals")
+    print("3. See start non terminal")
+    print("4. See productions")
+    print("5. See productions for a given non terminal")
+    print("6. CFG Check")
     print("0. Exit")
 
 def main():
@@ -42,6 +53,7 @@ def main():
     scanner3.scan("ProgramExamples/p2.txt")
     '''
 
+    '''
     FA = readFromFile("FA.json")
     while True:
         printFAMenu()
@@ -70,6 +82,33 @@ def main():
                 print("Yes")
             else:
                 print("No")
+        else:
+            print("Invalid command!")
+    '''
+
+    grammar = readGrammarFromFile("G1.json")
+    while True:
+        printGrammarMenu()
+        command = str(input("Enter a command: ")).strip()
+        if command == "0":
+            break
+        elif command == "1":
+            print(grammar.nonTerminals)
+        elif command == "2":
+            print(grammar.terminals)
+        elif command == "3":
+            print(grammar.start)
+        elif command == "4":
+            for nonTerminal in grammar.productions:
+                print(nonTerminal + " -> " + str(grammar.productions[nonTerminal]))
+        elif command == "5":
+            inputNonTerminal = str(input("Enter the desired non terminal:"))
+            if inputNonTerminal not in grammar.productions:
+                print("This non terminal is not in the grammar!")
+                continue
+            print(inputNonTerminal + " -> " + str(grammar.productions[inputNonTerminal]))
+        elif command == "6":
+            print(grammar.CFGCheck())
         else:
             print("Invalid command!")
 
