@@ -1,10 +1,30 @@
 {
-    "nonTerminals": [ "S", "B", "C" ],
-    "terminals": [ "a", "b", "c" ],
-    "start": [ "S" ],
+    "nonTerminals": [ "program", "decllist", "declaration", "type", "array", "cmpdstmt", "stmtlist", "stmt", "simplestmt", "assignstmt", "expression", "term", "factor", "iostmt", "structsmt", "ifstmt", "whilestmt", "condition", "relation", "identifier", "letter", "digit", "nonzero_digit" ],
+    "terminals": [ ";", "[", "]", "{", "}", "(", ")", "if", "print", "read" ],
+    "start": [ "program" ],
     "productions": {
-        "S": [ "abC", "aB" ],
-        "B": [ "bC" ],
-        "C": [ "c" ]
+        "program": [ "decllist cmpdstmt" ],
+        "decllist": [ "declaration", "declaration ; decllist" ],
+        "declaration": [ "type identifier" ],
+        "type": [ "boolean", "char", "int", "float", "string" ],
+        "array": [ "identifier [ number ]" ],
+        "cmpdstmt": [ "{ stmtlist }" ],
+        "stmtlist": [ "stmt", "stmt ; stmtlist" ],
+        "stmt": [ "simplestmt", "structstmt" ],
+        "simplestmt": [ "assignstmt", "iostmt" ],
+        "assignstmt": [ "identifier = expression" ],
+        "expression": [ "expression + term", "expression - term", "term" ],
+        "term": [ "term / factor", "term * factor", "term % factor", "factor" ],
+        "factor": [ "( expression )", "identifier" ],
+        "iostmt": [ "read ( identifier )", "print ( identifier )" ],
+        "structsmt": [ "cmpdstmt", "ifstmt", "whilestmt" ],
+        "ifstmt": [ "if ( condition ) { stmt }", "if ( condition ) { stmt } else { stmt }" ],
+        "whilestmt": [ "while ( condition ) do { stmt }" ],
+        "condition": [ "expression relation expression" ],
+        "relation": [ "<", ">", "==", "!=", "<=", ">=", "||", "&&" ],
+        "identifier": [ "letter", "digit", "_" ],
+        "letter": [ "A" ],
+        "digit": [ "0", "nonzero_digit" ],
+        "nonzero_digit": [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
     }
 }

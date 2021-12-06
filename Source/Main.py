@@ -23,6 +23,7 @@ def printGrammarMenu():
     print("4. See productions")
     print("5. See productions for a given non terminal")
     print("6. CFG Check")
+    print("7. Parse a sequence")
     print("0. Exit")
 
 def main():
@@ -109,6 +110,10 @@ def main():
             print(inputNonTerminal + " -> " + str(grammar.productions[inputNonTerminal]))
         elif command == "6":
             print(grammar.CFGCheck())
+        elif command == "7":
+            sequence = input("Enter the desired sequence: ")
+            print(grammar.parse(sequence))
+            print(grammar.configuration)
         else:
             print("Invalid command!")
 
