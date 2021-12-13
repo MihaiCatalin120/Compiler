@@ -11,12 +11,11 @@ class Grammar:
         self.terminals = terminals
         self.start = start
         self.productions = productions
-        self.configuration = {
-            "state": "",
-            "position": 0,
-            "workingStack": [],
-            "inputStack": []
-        }
+        #configuration
+        self.configState = ""
+        self.configPosition = 0
+        self.configWorkingStack = []
+        self.configInputStack = []
 
     def CFGCheck(self):
         for key in self.productions:
@@ -28,74 +27,74 @@ class Grammar:
                 return False
         return True
 
-    def _expand(self):
-        nonTerminal = self.configuration["inputStack"].pop()
-        self.configuration["workingStack"].append((nonTerminal, 0))
-        productionResult = self.productions[nonTerminal][0]
+    def _appendProductions(self, nonTerminal, index):
+        self.configWorkingStack.append((nonTerminal, index))
+        productionResult = self.productions[nonTerminal][index]
         for result in reversed(productionResult):
-            self.configuration["inputStack"].append(result)
+            self.configInputStack.append(result)
+
+    def _expand(self):
+        nonTerminal = self.configInputStack.pop()
+        self._appendProductions(nonTerminal, 0)
 
     def _advance(self):
-        self.configuration["position"] += 1
-        self.configuration["workingStack"].append(self.configuration["inputStack"].pop())
+        self.configPosition += 1
+        self.configWorkingStack.append(self.configInputStack.pop())
 
     def _momentaryInsuccess(self):
-        self.configuration["state"] = "b"
+        self.configState = "b"
 
     def _back(self):
-        self.configuration["position"] -= 1
-        self.configuration["inputStack"].append(self.configuration["workingStack"].pop())
+        self.configPosition -= 1
+        self.configInputStack.append(self.configWorkingStack.pop())
 
     def _anotherTry(self):
-        nonTerminal, index = self.configuration["workingStack"].pop()
+        nonTerminal, index = self.configWorkingStack.pop()
         popLen = len(self.productions[nonTerminal][index])
         for i in range(popLen):
-            self.configuration["inputStack"].pop()
+            self.configInputStack.pop()
 
-        if self.configuration["position"] == 1 and nonTerminal == self.start:
-            self.configuration["state"] = "e"
+        if self.configPosition == 1 and nonTerminal == self.start:
+            self.configState = "e"
 
         elif index + 1 < len(self.productions[nonTerminal]):
-            self.configuration["state"] = "q"
+            self.configState = "q"
             index += 1
-            self.configuration["workingStack"].append((nonTerminal, index))
-            productionResult = self.productions[nonTerminal][index]
-            for result in reversed(productionResult):
-                self.configuration["inputStack"].append(result)
+            self._appendProductions(nonTerminal, index)
 
         else:
-            self.configuration["inputStack"].append(nonTerminal)
+            self.configInputStack.append(nonTerminal)
 
     def _success(self):
-        self.configuration["state"] = "f"
+        self.configState = "f"
 
     def parse(self, sequence):
-        self.configuration = {
-            "state": "q",
-            "position": 0,
-            "workingStack": [],
-            "inputStack": self.start
-        }
-        while self.configuration["state"] not in ["f", "e"]:
-            if self.configuration["state"] == "q":
-                if self.configuration["position"] == len(sequence) and len(self.configuration["inputStack"]) == 0:
+        #init config
+        self.configState = "q"
+        self.configPosition = 0
+        self.configWorkingStack = []
+        self.configInputStack = self.start
+
+        while self.configState not in ["f", "e"]:
+            if self.configState == "q":
+                if self.configPosition == len(sequence) and len(self.configInputStack) == 0:
                     self._success()
-                elif self.configuration["inputStack"][-1] in self.nonTerminals:
+                elif self.configInputStack[-1] in self.nonTerminals:
                     self._expand()
-                elif self.configuration["position"] < len(sequence):
-                    if self.configuration["inputStack"][-1] == sequence[self.configuration["position"]]:
+                elif self.configPosition < len(sequence):
+                    if self.configInputStack[-1] == sequence[self.configPosition]:
                         self._advance()
                     else:
                         self._momentaryInsuccess()
                 else:
                     self._momentaryInsuccess()
-            elif self.configuration["state"] == "b":
-                if self.configuration["workingStack"][-1] in self.terminals:
+            elif self.configState == "b":
+                if self.configWorkingStack[-1] in self.terminals:
                     self._back()
                 else:
                     self._anotherTry()
 
-        if self.configuration["state"] == "e":
+        if self.configState == "e":
             return "Error"
 
         return "Success"

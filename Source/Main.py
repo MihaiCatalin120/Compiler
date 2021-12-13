@@ -111,7 +111,7 @@ def main():
         elif command == "7":
             sequence = input("Enter the desired sequence: ")
             print(grammar.parse(sequence))
-            print(grammar.configuration)
+            print(grammar.configWorkingStack)
         else:
             print("Invalid command!")
 
