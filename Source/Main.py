@@ -1,4 +1,5 @@
 from Domain.Grammar import readGrammarFromFile
+from Domain.Grammar import ParserOutput
 
 def printFAMenu():
     print("-----------------------------")
@@ -112,6 +113,8 @@ def main():
             sequence = input("Enter the desired sequence: ")
             print(grammar.parse(sequence))
             print(grammar.configWorkingStack)
+            #parserOutput = ParserOutput(grammar.nonTerminals, grammar.configWorkingStack, grammar.productions)
+            #parserOutput.showParsingTree()
         else:
             print("Invalid command!")
 

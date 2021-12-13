@@ -15,7 +15,7 @@ class Grammar:
         self.configState = ""
         self.configPosition = 0
         self.configWorkingStack = []
-        self.configInputStack = []
+        self.configInputStack = start
 
     def CFGCheck(self):
         for key in self.productions:
@@ -98,6 +98,54 @@ class Grammar:
             return "Error"
 
         return "Success"
+
+
+class Node:
+    def __init__(self, info, parent, rightSibling):
+        self.info = info
+        self.parent = parent
+        self.rightSibling = rightSibling
+
+    def __str__(self):
+        return str(self.info) + ", " + str(self.parent) + ", " + str(self.rightSibling)
+
+
+class ParserOutput:
+    def __init__(self, nonTerminals: list, finalWorkingStack: list, productions):
+        self.nonTerminals = nonTerminals
+        self.finalWorkingStack = finalWorkingStack
+        self.parsingTree = []
+        self.productions = productions
+        self.parentsQueue = []
+        self.getRepresentation()
+
+    def printToFile(self, filename):
+        pass
+
+    def getRepresentation(self):
+        self.finalWorkingStack = list(filter(lambda x: (type(x) is tuple), self.finalWorkingStack))
+        nonTerminal, productionIndex = self.finalWorkingStack.pop(0)
+        self.parsingTree.append(Node(nonTerminal, 0, 0))
+        self._addToParsingTree(1, self.productions[nonTerminal][productionIndex])
+
+        for element in self.finalWorkingStack:
+            parentIndex = self.parentsQueue.pop(0)
+            nonTerminal, productionIndex = element
+            productionResult = self.productions[nonTerminal][productionIndex]
+            self._addToParsingTree(parentIndex, productionResult)
+
+    def _addToParsingTree(self, parent, production):
+        siblingIndex = 0
+        for element in production:
+            self.parsingTree.append(Node(element, parent, siblingIndex))
+            siblingIndex = len(self.parsingTree)
+            if element in self.nonTerminals:
+                self.parentsQueue.append(siblingIndex)
+
+    def showParsingTree(self):
+        for i in range(len(self.parsingTree)):
+            print(str(i+1) + ", " + str(self.parsingTree[i]))
+
 
 
 
