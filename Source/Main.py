@@ -1,6 +1,4 @@
-from Scanner import Scanner
-from FiniteAutomata import readFromFile
-from Grammar import readGrammarFromFile
+from Domain.Grammar import readGrammarFromFile
 
 def printFAMenu():
     print("-----------------------------")
@@ -87,7 +85,7 @@ def main():
             print("Invalid command!")
     '''
 
-    grammar = readGrammarFromFile("G1.json")
+    grammar = readGrammarFromFile("input/G1.json")
     while True:
         printGrammarMenu()
         command = str(input("Enter a command: ")).strip()
